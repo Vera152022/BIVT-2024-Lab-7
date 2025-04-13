@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -138,20 +138,67 @@ namespace Lab_7
         }
         public class Report 
         {
-            private Response[] respons;
-            private static int i = 1;
+            private Research[] _respons;
+            private static int _i;
 
-            public void Researches()
+            public Research[] Researches => _respons;
+            static Report()
             {
-
+                _i = 1;
             }
+            public Report()
+            {
+                _respons = new Research[0];
+            }
+            
             public Research MakeResearch()
             {
-
+                var M = DateTime.Now.ToString("MM");
+                var Y = DateTime.Now.ToString("yy");
+                string new_name = $"No_{_i}_{M}/{Y}";
+                _i += 1;
+                var total = new Research(new_name);
+                var res = new Research[Researches.Length + 1];
+                res[Researches.Length - 1] = total;
+                _respons = res;
+                return total;
             }
             public (string, double)[] GetGeneralReport(int question)
             {
-
+                if (_respons == null || question < 1 || question > 3) return null;
+                string[] tot = new string[0];
+                foreach (var i in _respons) 
+                {
+                    foreach(var j in i.Responses)
+                    {
+                        if(question == 1)
+                        {
+                            if(j.Animal != null)
+                            {
+                                Array.Resize(ref tot, tot.Length + 1);
+                                tot[tot.Length - 1] = j.Animal;
+                            }
+                        }
+                        else if (question == 2)
+                        {
+                            if (j.CharacterTrait != null)
+                            {
+                                Array.Resize(ref tot, tot.Length + 1);
+                                tot[tot.Length - 1] = j.CharacterTrait;
+                            }
+                        }
+                        if (question == 1)
+                        {
+                            if (j.Concept != null)
+                            {
+                                Array.Resize(ref tot, tot.Length + 1);
+                                tot[tot.Length - 1] = j.Concept;
+                            }
+                        }
+                    }
+                }
+                var ans = tot.GroupBy(x => x).Select(r => (r.Key, (double)r.Count() / tot.Length * 100.0)).ToArray();
+                return ans;
             }
         }
         
