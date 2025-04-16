@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,7 +67,7 @@ namespace Lab_7
 
             public void Evaluate(double result)
             {
-                if (_marks == null || _judge >= _marks.Length) return;
+                if (_marks == null || _judge >= _marks.Length || result < 0 || result > 6) return;
                 _marks[_judge] = result;
                 _judge++;
 
@@ -159,6 +159,7 @@ namespace Lab_7
         {
             protected Participant[] _participants;
             protected double[] _judges;
+            private int _tot = 0;
 
             public Participant[] Participants => _participants;
             public double[] Moods
@@ -174,7 +175,7 @@ namespace Lab_7
             }
             public Skating(double[] smile)
             {
-                if (smile == null || smile.Length != 7) return;
+                if (smile == null || smile.Length < 7) return;
                 _participants = new Participant[0];
                 _judges = new double[7];
                 Array.Copy(smile, _judges, smile.Length);
@@ -184,19 +185,16 @@ namespace Lab_7
 
             public void Evaluate(double[] marks)
             {
-                if (marks == null || _judges == null) return;
+                if (marks == null || _judges == null || _tot == _participants.Length || _participants == null || marks.Length < _judges.Length) return;
                 var new_smile = _judges[_judges.Length];
-                for (int i = 0; i < _participants.Length; i++)
+                for (int i = 0; i < _judges.Length; i++)
                 {
-                    if(_participants[i].Score == 0) 
-                    {
-                        for(int j = 0; j < marks.Length; j++)
-                        {
-                            _participants[i].Evaluate(marks[j] * Moods[j]);
-                        }
-                        return;
-                    }
+                    if (marks[i] == null & _judges[i] == null) return;
+                    _participants[_tot].Evaluate(marks[i] * _judges[i]);
+                    return;
+                    
                 }
+                _tot += 1;
             }
             public void Add(Participant participant)
             {
@@ -235,7 +233,7 @@ namespace Lab_7
                 if(_judges == null) return;
                 for(int i = 1; i < _judges.Length + 1; i++)
                 {
-                    _judges[i - 1] += _judges[i] / 100.0 * (double)i;
+                    _judges[i - 1] += (double)_judges[i - 1] / 100.0 * (100.0 + i);
                 }
             }
         }
