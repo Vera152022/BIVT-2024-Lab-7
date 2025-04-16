@@ -80,7 +80,7 @@ namespace Lab_7
             public string[] GetTopResponses(int question)
             {
                 if (_responses == null || question < 1 || question > 3) return null;
-                //question--;
+                
                 int total = 0;
                 int n = _responses.Length;
                 string[] answer = new string[n];
@@ -155,13 +155,17 @@ namespace Lab_7
             {
                 var M = DateTime.Now.ToString("MM");
                 var Y = DateTime.Now.ToString("yy");
-                string new_name = $"No_{_i}_{M}/{Y}";
+                var new_name = new Research($"No_{_i}_{M}/{Y}");
                 _i += 1;
-                var total = new Research(new_name);
+                if (_respons == null) 
+                { 
+                    _respons = new Research[0];
+                }
+                
                 var res = new Research[Researches.Length + 1];
-                res[Researches.Length - 1] = total;
+                res[res.Length - 1] = new_name;
                 _respons = res;
-                return total;
+                return new_name;
             }
             public (string, double)[] GetGeneralReport(int question)
             {
@@ -187,7 +191,7 @@ namespace Lab_7
                                 tot[tot.Length - 1] = j.CharacterTrait;
                             }
                         }
-                        if (question == 1)
+                        else if (question == 3)
                         {
                             if (j.Concept != null)
                             {
