@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,7 @@ namespace Lab_7
             private string _name;
             private string _surname;
             private double _timeRun;
-            private int _flag;
+            private bool _flag;
 
             public string Name => _name;
             public string Surname => _surname;
@@ -24,20 +24,18 @@ namespace Lab_7
                 _name = name;
                 _surname = surname;
                 _timeRun = 0;
-                _flag = 0;
+                _flag = false;
             }
 
             public void Run(double time)
             {
-                if (_flag == 1) return;
+                if (_flag == true) return;
                 _timeRun = time;
-                _flag = 1;
+                _flag = true;
             }
 
             public void Print()
             {
-                Console.Write(Name + " " + Surname + " " + Time);
-
             }
             public static void Sort(Sportsman[] array)
             {
@@ -57,14 +55,8 @@ namespace Lab_7
             private Sportsman[] _sportsmen;
 
             public string Name => _title;
-            public Sportsman[] Sportsmen
-            {
-                get
-                {
-                    if (_sportsmen == null) return null;
-                    return _sportsmen;
-                }
-            }
+            public Sportsman[] Sportsmen => _sportsmen;
+             
 
             public Group(string title)
             {
@@ -77,7 +69,7 @@ namespace Lab_7
                 if (grop_2.Sportsmen != null)
                 {
                     _sportsmen = new Sportsman[grop_2.Sportsmen.Length];
-                    Array.Copy(grop_2.Sportsmen, _sportsmen, _sportsmen.Length);
+                    Array.Copy(grop_2.Sportsmen, _sportsmen, grop_2.Sportsmen.Length);
                 }
                 else
                 {
@@ -180,25 +172,32 @@ namespace Lab_7
             public void Shuffle()
             {
                 if (_sportsmen == null) return;
-                Split(out Sportsman[] men, out Sportsman[] women);
                 Sort();
-                if (men == null || women == null) return;
+                Split(out Sportsman[] men, out Sportsman[] women);
+                if (men == null || women == null || men.Length == 0 || women.Length == 0) return;
+                if (men.Length != 0 && women.Length != 0 && men[0].Time > women[0].Time)
+                {
+                    var neww = women;
+                    women = men;
+                    men = neww;
+                }
                 int index_total = 0;
-                for (int i = 0; i < men.Length && i < women.Length; i++) 
+                int i;
+                for (i = 0; i < men.Length && i < women.Length; i++) 
                 {
                     _sportsmen[index_total] = men[i];
                     index_total++;
                     _sportsmen[index_total] = women[i];
                     index_total++;
                 }
-                for(int i = 0; i< men.Length; i++)
+                for(int j = i; j < men.Length; j++)
                 {
-                    _sportsmen[index_total] = men[i];
+                    _sportsmen[index_total] = men[j];
                     index_total++;
                 }
-                for (int i = 0; i < women.Length; i++)
+                for (int j = i; j < women.Length; j++)
                 {
-                    _sportsmen[index_total] = women[i];
+                    _sportsmen[index_total] = women[j];
                     index_total++;
                 }
             }
@@ -206,7 +205,7 @@ namespace Lab_7
         public class SkiMan : Sportsman
         {
             public SkiMan(string name, string surname) : base(name, surname) { }
-            public SkiMan(string name, string surname, int time) : base(name, surname) 
+            public SkiMan(string name, string surname, double time) : base(name, surname) 
             {
                 Run(time);
             }
@@ -215,7 +214,7 @@ namespace Lab_7
         public class SkiWoman : Sportsman
         {
             public SkiWoman(string name, string surname) : base(name, surname) { }
-            public SkiWoman(string name, string surname, int time) : base(name, surname)
+            public SkiWoman(string name, string surname, double time) : base(name, surname)
             {
                 Run(time);
             }
