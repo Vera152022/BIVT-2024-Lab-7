@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_7
 {
-    public class Purple_2
+    internal class Purple_2
     {
         public struct Participant
         {
@@ -15,6 +15,7 @@ namespace Lab_7
             private string _surname;
             private int _jump;
             private int[] _marks;
+            private int _ttarget;
 
 
             public string Name => _name;
@@ -36,7 +37,7 @@ namespace Lab_7
             {
                 get
                 {
-                    if (_marks == null) return 0;
+                    if (_marks == null || _jump < 0) return 0;
                     int summ = 0;
                     int max = _marks[0];
                     int min = _marks[0];
@@ -77,20 +78,19 @@ namespace Lab_7
                 _name = name;
                 _surname = surname;
                 _marks = new int[5];
-                _jump = 0;
+                _jump = -1;
+                _ttarget = 0;
                 for (int i = 0; i < _marks.Length; i++)
                     _marks[i] = 0;
             }
 
             public void Jump(int distance, int[] marks, int target)
             {
-                if (_marks == null || marks == null || _marks.Length == 0 || distance == null || _marks.Length != marks.Length) return;
+                if (_marks == null || marks == null || _marks.Length == 0 || distance == null || _marks.Length != marks.Length || distance < 0) return;
                 _jump = distance;
-                int ttarget = target;
-                for (int i = 0; i < _marks.Length; i++)
-                {
-                    _marks[i] = marks[i];
-                }
+                Array.Copy(marks, _marks, marks.Length);
+                _ttarget = (_jump - target) * 2 + 60;
+
             }
 
             public static void Sort(Participant[] array)
@@ -110,9 +110,6 @@ namespace Lab_7
             public void Print()
             {
 
-                Console.WriteLine(Name + " " + Surname + " " + Result);
-
-
             }
         }
         public abstract class SkiJumping
@@ -122,7 +119,7 @@ namespace Lab_7
             private Participant[] _participants;
 
             public string Name => _name;
-            public int Standart => _standart;
+            public int Standard => _standart;
             public Participant[] Participants 
             {
                 get
