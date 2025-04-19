@@ -143,7 +143,7 @@ namespace Lab_7
             private int[] _marks;
             private int _r;
 
-            private string Name => _name;
+            public string Name => _name;
 
             public Judge(string name, int[] marks) 
             { 
