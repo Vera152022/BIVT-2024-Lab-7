@@ -54,19 +54,10 @@ namespace Lab_7
                             min = _marks[i];
                         }
                     }
-                    int jump = _jump;
-                    summ -= max + min;
-                    summ += 60;
-                    if (jump > 120)
-                    {
-                        jump -= 120;
-                        summ += jump * 2;
-                    }
-                    else if (jump < 120)
-                    {
-                        jump = 120 - jump;
-                        summ -= jump * 2;
-                    }
+                    
+                    summ -= (max + min);
+                    summ += _ttarget;
+                    
                     if (summ < 0)
                         summ = 0;
                     return summ;
