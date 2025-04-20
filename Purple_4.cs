@@ -37,6 +37,7 @@ namespace Lab_7
             public void Print()
             {
             }
+            // fffff позже
             public static void Sort(Sportsman[] array)
             {
                 if (array == null) return;
@@ -89,12 +90,11 @@ namespace Lab_7
             public void Add(Sportsman[] s)
             {
                 if (_sportsmen == null || s == null) return;
-                Sportsman[] new_sport = new Sportsman[_sportsmen.Length + s.Length];
-                Array.Copy(_sportsmen, new_sport, _sportsmen.Length);
-                Array.ConstrainedCopy(s, 0, new_sport, _sportsmen.Length, s.Length);
-                _sportsmen = new_sport;
-
-
+                
+                foreach (var i in s)
+                {
+                    Add(i);
+                }
             }
 
             public void Add(Group g)
@@ -117,36 +117,40 @@ namespace Lab_7
 
             public static Group Merge(Group group1, Group group2)
             {
-                Group g = new Group("Финалисты");
-                var first = group1.Sportsmen;
-                var second = group2.Sportsmen;
-                if (group1.Sportsmen == null) first = new Sportsman[0];
-                if (group2.Sportsmen == null) second = new Sportsman[0];
+                var g = new Group("Финалисты");
+                var first = group1._sportsmen;
+                var second = group2._sportsmen;
+                if (group1._sportsmen == null || group2._sportsmen == null) return g;
+                if (first == null) first = new Sportsman[0];
+                if (second == null) second = new Sportsman[0];
                 g._sportsmen = new Sportsman[first.Length + second.Length];
+                int index = 0;
                 for (int i = 0, j = 0; i < first.Length || j < second.Length;)
                 {
                     if (i < first.Length && j < second.Length)
                     {
                         if (first[i].Time <= second[j].Time)
                         {
-                            g._sportsmen[i + j] = first[i++];
+                            g._sportsmen[index] = first[i++];
+                            index++;
                         }
                         else
                         {
-                            g._sportsmen[i + j] = second[j++];
+                            g._sportsmen[index] = second[j++];
+                            index++;
                         }
                     }
                     else
                     { 
                         if (i < first.Length)
                         {
-                            Array.ConstrainedCopy(first, i, g._sportsmen, i + j, first.Length - i);
-                            i = first.Length;
+                            g._sportsmen[index] = first[i++];
+                            index++;
                         }
                         if (j < second.Length)
                         {
-                            Array.ConstrainedCopy(second, j, g._sportsmen, i + j, second.Length - j);
-                            j = second.Length;
+                            g._sportsmen[index] = second[j++];
+                            index++;
                         }
                     }
                 }
@@ -162,7 +166,6 @@ namespace Lab_7
                 {
                     women = null;
                     men = null;
-                    return;
                 }
                 
                 men = _sportsmen.Where(x => (x is SkiMan)).ToArray();
@@ -192,7 +195,7 @@ namespace Lab_7
                 }
                 for(int j = i; j < men.Length; j++)
                 {
-                    _sportsmen[index_total] = men[j];
+                    _sportsmen[index_total++] = men[j];
                     index_total++;
                 }
                 for (int j = i; j < women.Length; j++)
