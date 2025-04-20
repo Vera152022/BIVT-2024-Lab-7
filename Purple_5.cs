@@ -127,7 +127,7 @@ namespace Lab_7
                 Array.Sort(counts, answer);
                 Array.Reverse(answer);
                 string[] total_answer = new string[Math.Min(answer.Length, 5)];
-                Array.Copy(answer, total_answer, 5);
+                Array.Copy(answer, total_answer, Math.Min(answer.Length, 5));
                 return total_answer;
             }
 
