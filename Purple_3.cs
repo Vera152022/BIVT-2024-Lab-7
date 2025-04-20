@@ -67,7 +67,7 @@ namespace Lab_7
 
             public void Evaluate(double result)
             {
-                if (_marks == null || _judge >= _marks.Length || result < 0 || result > 6) return;
+                if (_marks == null || _judge >= 7 || result < 0 || result > 6) return;
                 _marks[_judge] = result;
                 _judge++;
 
@@ -100,7 +100,10 @@ namespace Lab_7
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
-
+                foreach(var i in array)
+                {
+                    if (i.Places == null) return;
+                }
 
                 Array.Sort(array, (a, b) => {
                     if (a.Score == b.Score)
@@ -186,10 +189,10 @@ namespace Lab_7
             public void Evaluate(double[] marks)
             {
                 if (marks == null || _judges == null || _tot == _participants.Length || _participants == null || marks.Length < _judges.Length) return;
-                var new_smile = _judges[_judges.Length];
+                
                 for (int i = 0; i < _judges.Length; i++)
                 {
-                    if (marks[i] == null & _judges[i] == null) return;
+                    if (marks[i] == null && _judges[i] == null) return;
                     _participants[_tot].Evaluate(marks[i] * _judges[i]);
                     return;
                     
@@ -200,8 +203,8 @@ namespace Lab_7
             {
                 if (_participants == null) return;
                 var new_part = new Participant[_participants.Length + 1];
-                Array.Copy(_participants, new_part, new_part.Length);
-                new_part[_participants.Length - 1] = participant;
+                Array.Copy(_participants, new_part, _participants.Length);
+                new_part[new_part.Length - 1] = participant;
                 _participants = new_part;
             }
             public void Add(Participant[] participant)
