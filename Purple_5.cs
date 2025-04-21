@@ -201,8 +201,8 @@ namespace Lab_7
                         }
                     }
                 }
-                var ans = tot.GroupBy(x => x).Select(r => (r.Key, (double)r.Count() / tot.Length * 100.0)).ToArray();
-                return ans;
+                return tot.GroupBy(x => x).Select(r => (r.Key, (double)r.Count() / tot.Length * 100.0)).ToArray();
+                
             }
         }
         
