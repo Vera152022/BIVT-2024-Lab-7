@@ -203,7 +203,7 @@ namespace Lab_7
             {
                 if (_participants == null) return;
                 var new_part = new Participant[_participants.Length + 1];
-                Array.Copy(_participants, new_part, _participants.Length);
+                Array.Copy(_participants, new_part, new_part.Length);
                 new_part[new_part.Length - 1] = participant;
                 _participants = new_part;
             }
