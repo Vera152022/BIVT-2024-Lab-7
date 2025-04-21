@@ -125,35 +125,37 @@ namespace Lab_7
                 if (second == null) second = new Sportsman[0];
                 g._sportsmen = new Sportsman[first.Length + second.Length];
                 int index = 0;
-                for (int i = 0, j = 0; i < first.Length || j < second.Length;)
+                int i = 0;
+                int j = 0;
+                while(j < second.Length && i < first.Length)
                 {
-                    if (i < first.Length && j < second.Length)
+                    if (second[j].Time < first[i].Time)
                     {
-                        if (first[i].Time <= second[j].Time)
-                        {
-                            g._sportsmen[index] = first[i++];
-                            index++;
-                        }
-                        else
-                        {
-                            g._sportsmen[index] = second[j++];
-                            index++;
-                        }
+                        g._sportsmen[index] = second[j];
+                        index++;
+                        j++;
                     }
                     else
-                    { 
-                        if (i < first.Length)
-                        {
-                            g._sportsmen[index] = first[i++];
-                            index++;
-                        }
-                        if (j < second.Length)
-                        {
-                            g._sportsmen[index] = second[j++];
-                            index++;
-                        }
+                    {
+                        g._sportsmen[index] = first[i];
+                        i++;
+                        index++;
                     }
+
                 }
+                while(i < first.Length)
+                {
+                    g._sportsmen[index] = first[i];
+                    index++;
+                    i++;
+                }
+                while(j < second.Length)
+                {
+                    g._sportsmen[index] = second[j];
+                    j++;
+                    index++;
+                }
+
                 return g;
             }
             public void Print()
@@ -195,7 +197,7 @@ namespace Lab_7
                 }
                 for(int j = i; j < men.Length; j++)
                 {
-                    _sportsmen[index_total++] = men[j];
+                    _sportsmen[index_total] = men[j];
                     index_total++;
                 }
                 for (int j = i; j < women.Length; j++)
