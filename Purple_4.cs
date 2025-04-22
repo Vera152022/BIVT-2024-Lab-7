@@ -37,17 +37,11 @@ namespace Lab_7
             public void Print()
             {
             }
-            // fffff позже
             public static void Sort(Sportsman[] array)
             {
                 if (array == null) return;
-                Array.Sort(array, (a, b) =>
-                {
-                    double x = a.Time - b.Time;
-                    if (x < 0) return -1;
-                    else if (x > 0) return 1;
-                    else return 0;
-                });
+                var new_array = array.OrderBy(x => x.Time).ToArray();
+                Array.Copy(new_array, array, new_array.Length);
             }
         }
         public class Group
@@ -56,9 +50,14 @@ namespace Lab_7
             private Sportsman[] _sportsmen;
 
             public string Name => _title;
-            public Sportsman[] Sportsmen => _sportsmen;
+            public Sportsman[] Sportsmen
+            {
+                get
+                {
+                    return _sportsmen;
+                }
+            }
              
-
             public Group(string title)
             {
                 _title = title;
@@ -109,8 +108,8 @@ namespace Lab_7
                 Array.Sort(_sportsmen, (a, b) =>
                 {
                     double x = a.Time - b.Time;
-                    if (x > 0) return 1;
-                    else if (x < 0) return -1;
+                    if (x < 0) return -1;
+                    else if (x > 0) return 1;
                     else return 0;
                 });
             }
