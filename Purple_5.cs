@@ -173,6 +173,7 @@ namespace Lab_7
                 string[] tot = new string[0];
                 foreach (var i in _respons) 
                 {
+                    if(i.Responses ==  null) continue;
                     foreach(var j in i.Responses)
                     {
                         if(question == 1)
