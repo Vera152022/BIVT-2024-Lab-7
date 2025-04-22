@@ -181,7 +181,7 @@ namespace Lab_7
                 if (smile == null || smile.Length < 7) return;
                 _participants = new Participant[0];
                 _judges = new double[7];
-                Array.Copy(smile, _judges, smile.Length);
+                Array.Copy(smile, _judges, 7);
                 ModificateMood();
             }
             protected abstract void ModificateMood();
