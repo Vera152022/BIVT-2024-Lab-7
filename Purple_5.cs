@@ -72,7 +72,7 @@ namespace Lab_7
                 }
 
                 var res = new Response[_responses.Length + 1];
-                Array.Copy(_responses, res, res.Length - 1);
+                Array.Copy(_responses, res, _responses.Length);
                 res[res.Length - 1] = new Response(ans[0], ans[1], ans[2]);
                 _responses = res;
             }
@@ -86,23 +86,24 @@ namespace Lab_7
                 string[] answer = new string[n];
                 for (int i = 0; i < n; i++)
                 {
-                    int c = 1;
+                    int s = 1;
                     var array_1 = new string[] { _responses[i].Animal, _responses[i].CharacterTrait, _responses[i].Concept };
                     for (int j = 0; j < i; j++)
                     {
                         var array_2 = new string[] { _responses[j].Animal, _responses[j].CharacterTrait, _responses[j].Concept };
                         if (array_1[question - 1] == array_2[question - 1])
                         {
-                            c++;
+                            s++;
                             break;
                         }
                     }
-                    if (c == 1 && array_1[question - 1] != null)
+                    if (s == 1 && array_1[question - 1] != null)
                     {
                         int q = 0;
                         for (int j = 0; j < total; j++)
                         {
-                            if (answer[j] == array_1[question - 1]) q++;
+                            if (answer[j] == array_1[question - 1]) 
+                                q++;
                         }
                         if (q == 0 && array_1[question - 1] != null && array_1[question - 1] != "-")
                         {
@@ -202,7 +203,7 @@ namespace Lab_7
                         }
                     }
                 }
-                return tot.GroupBy(x => x).Select(r => (r.Key, (double)r.Count() / tot.Length * 100.0)).ToArray();
+                return tot.GroupBy(x => x).Select(r => (r.Key, r.Count() * 100.0 / tot.Length)).ToArray();
                 
             }
         }
